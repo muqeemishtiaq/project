@@ -39,7 +39,7 @@ const UserList = () => {
                   setEditId(user.id);
                   setEditName(user.name);
                 }}
-                className="bg-yellow-500 text-white px-2 py-1 rounded mx-1"
+                className="bg-pink-700 text-white px-2 py-1 rounded mx-1"
               >
                 Edit
               </button>
