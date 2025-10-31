@@ -31,7 +31,7 @@ jobs:
    
       - name: SonarQube Scan
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: squ_827c8534603fc036bf6aa3911fa190c1e9bc6147
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
