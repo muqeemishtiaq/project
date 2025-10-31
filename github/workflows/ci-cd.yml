@@ -1,25 +1,26 @@
-name: React CI/CD Pipeline
+name: React CI/CD Pipeline (Local)
 
 on:
   push:
     branches:
-      - main   
+      - main
 
 jobs:
-  build-and-deploy:
+  build-and-run:
     runs-on: ubuntu-latest
 
     steps:
-   
+      
       - name: Checkout repository
         uses: actions/checkout@v3
 
+     
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-    
+  
       - name: Install dependencies
         run: npm ci
 
@@ -27,7 +28,7 @@ jobs:
       - name: Run tests
         run: npm run test -- --watchAll=false
 
- 
+   
       - name: SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -36,7 +37,7 @@ jobs:
           sonar-scanner \
             -Dsonar.projectKey=project \
             -Dsonar.sources=src \
-            -Dsonar.host.url=http://your-sonarqube-server:9000 \
+            -Dsonar.host.url=http://localhost:9000 \
             -Dsonar.login=$SONAR_TOKEN
 
       - name: Build Docker image
@@ -48,14 +49,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      
       - name: Push Docker image
         run: docker push muqeem112/project:latest
 
-      - name: Deploy to server
-        env:
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-          SERVER_USER: ${{ secrets.SERVER_USER }}
+   
+      - name: Run container locally
         run: |
-          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP \
-          "docker pull muqeem112/project:latest && docker-compose -f /path/to/your/docker-compose.yml up -d"
+          docker-compose up -d
