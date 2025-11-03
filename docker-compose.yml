@@ -1,0 +1,6 @@
+services:
+  app:
+    image: muqeem112/project:latest
+    ports:
+      - "3000:80" 
+    restart: unless-stopped
