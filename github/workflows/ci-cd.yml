@@ -31,7 +31,8 @@ jobs:
    
       - name: SonarQube Scan
         env:
-          SONAR_TOKEN: squ_827c8534603fc036bf6aa3911fa190c1e9bc6147
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
@@ -51,6 +52,9 @@ jobs:
 
       - name: Push Docker image
         run: docker push muqeem112/project:latest
+
+      - name: Pull Docker image
+        run: docker pull muqeem112/project:latest
 
    
       - name: Run container locally
